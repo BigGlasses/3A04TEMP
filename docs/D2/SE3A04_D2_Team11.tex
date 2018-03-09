@@ -107,6 +107,7 @@ to document the design decision and describe the details of the high-level desig
 \begin{center}
 \includegraphics[scale=0.5]{uc}
 \end{center}
+This use case diagram describes the many business events that can take place for the user.
 % End Section
 
 \newpage
@@ -128,13 +129,28 @@ This section should provide an overview of the overall architectural design of y
 \subsection{System Architecture}
 \label{sub:system_architecture}
 % Begin SubSection
-For our system, we use the blackboard architecture. Generally, our system consists of five major subsystems which are user interface, input, experts, forum and datastore and beside these five major subsystems, additional subsystems are reporting, history and querying. blackboard architecture is used when there are no deterministic solution strategies are known and several specialized subsystems will assemble their knowledge to build a possibly partial or approximate solution. In our case, we do not have any ideas about the genre of the music that we are identifying, and three experts only have their specialized knowledge, they can only provide a piece of information according to their limited knowledge and the forum combines the information together to a final solution. Experts work independently, they do not need to know the existence of others, therefore we use blackboard architecture. Since we use blackboard architecture, the blackboard is the forum, knowledge sources are experts and finally the control is the datastore.
+The blackboard architecture design pattern was used when designing the system. The system consists of five major subsystems which are: 
+\begin{itemize}
+\item User Interface
+\item Input
+\item Experts
+\item Forum
+\item Central Datastore 
+\end{itemize}
+The minor subsystems are reporting, history and querying. 
+The blackboard architecture design pattern is used in situations where there is no known algorithmic solution strategy to solve a problem. Several specialized subsystems will gather information, and a central forum will build a partial or approximate solution to the problem. \\
+In the case of this system, since there is not a algorithmic way to identify the genre of the music it is logical to construct a partial understanding of the genre. In the system, three experts each have their own specialized knowledge. Each expert works independently to process information from the central data store and generate information useful to the forum. Each expert will provide a piece of information according to their limited knowledge and the forum aggregates the information to a reach an approximate final solution.
 % End SubSection
 
 \subsection{Subsystems}
 \label{sub:subsystems}
 % Begin SubSection
-The purpose of our user interface is give users the ability to operate the system, it interacts with the input subsystem and enables the user to record raw audio piece, the input subsystem records raw audio piece and then send the audio input to the expert. The expert subsystem consists of three individual experts which have their unique knowledge, expert analyzes the audio input from the input and send their partial solution to the forum. The forum collects all the partial solutions from previous expert and then gives an overall final solution. If there are conflicts, then the forum with interacts with the querying subsystem to resolve the conflicts and then return the solution back to itself. The forum also interacts with the user interface via a reporting subsystem, generate a report of the overall solution. The forum also stores the final solution to a history subsystem and this history subsystem interacts with the user interface to provides the user with previously identified solutions.
+\textbf{User Interface}
+The user interface gives users the ability to operate the system, it interacts with the input subsystem and enables the user to record raw audio piece.\\
+\textbf{Input} The input subsystem records raw audio piece and then send the audio input to the expert. \\
+\textbf{Experts} The expert subsystem consists of three individual experts which have their unique knowledge. Each expert analyses the audio input from the input and send their partial solution to the forum. \\
+\textbf{Forum} The forum collects the partial solutions from each expert and then gives an overall final solution. If there are conflicts, then the forum resolves the issues. The forum also interacts with the user interface via a reporting subsystem, generate a report of the overall solution. \\
+\textbf{Central Datastore} The forum also stores the final solution to a history subsystem and this history subsystem interacts with the user interface to provides the user with previously identified solutions.\\
 % End SubSection
 
 % End Section
