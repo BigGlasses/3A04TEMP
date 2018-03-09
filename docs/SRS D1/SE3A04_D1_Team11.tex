@@ -123,9 +123,11 @@ The other sections are organized into logical subsections. Specifically, Section
 \subsection{Product Perspective}
 \label{sub:product_perspective}
 % Begin SubSection
-Our system is a music \textbf{genre} identifier, for the \textbf{Android} operating system. Other than the \textbf{Android} operating system, the identifying process is not dependant on other existing software solutions. The system simply requires either a built-in or an external microphone to record music for analysis. The application may use other software solutions to supplement functionality, but it will still be able to function independently if those solutions are not available.
-% End SubSection
+Our system is a music \textbf{genre} identifier, for the \textbf{Android} operating system. Other than the \textbf{Android} operating system, the identifying process is not dependant on other existing software solutions. The system simply requires either a built-in or an external microphone to record music for analysis. The application may use other software solutions to supplement functionality, but it will still be able to function independently if those solutions are not available. 
 \\
+There are many similar existing products, such as Shazam, SoundHound, TrackID and Musixmatch Lyrics that all identify music/songs. Even though they all provide accurate results when identifying the genre of a particular song/music, they do not provide the rationale behind that why the music/song belongs to that particular genre. It is this novel feature that differentiates existing products from \textbf{AudioVal.ly} .
+
+% End SubSection
 \includegraphics[scale=0.4]{Diag1}
 
 \subsection{Product Functions}
@@ -200,12 +202,17 @@ N/A
 			\item The system shall be able to compare the actual result versus the feedback from user and store the correction.
 		\end{enumerate}
 		
-		\item The user wants to check a previously identified \textbf{music genre}.
+		\item The user wants to view a previous identification.
 		\begin{enumerate}
 			\item The system shall store a reasonable number of previous identification results.
 			\item The system shall display previously identified results to the user.
-			\item The system shall allow the user to view results of previous identifications.
-			\item The system shall allow the user to erase previously identified results.
+			\item The system shall allow the user to then select and view the previous identification in detail.
+		\end{enumerate}
+		\item The user wants to deleted a previous identification..
+		\begin{enumerate}
+			\item The system shall store a reasonable number of previous identification results.
+			\item The system shall display previously identified results to the user.
+			\item The system shall allow the user to then select and erase a previous identification.
 
 		\end{enumerate}
 	\end{enumerate}
