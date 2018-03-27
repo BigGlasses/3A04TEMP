@@ -1,0 +1,79 @@
+actor User
+title Use Case: Reevaluate an Identification
+
+boundary IDBreakdown Report
+boundary Correctness Report
+control Forum Controller
+boundary ExpertForum Interface
+control Expert1 Controller
+entity Expert1 ProcessData
+control Expert2 Controller
+entity Expert2 ProcessData
+control Expert3 Controller
+entity Expert3 ProcessData
+entity IDResult Data
+control Report Controller
+
+User->IDBreakdown Report:Reevaluate identification
+activate IDBreakdown Report
+IDBreakdown Report->Forum Controller:IDResult
+activate Forum Controller
+deactivate IDBreakdown Report
+Forum Controller->ExpertForum Interface:Make an identification
+activate ExpertForum Interface
+Forum Controller<--ExpertForum Interface:Request IDResult for identification reevaluation.
+Forum Controller-->ExpertForum Interface:IDResult 
+Forum Controller->ExpertForum Interface:Request identification information
+ExpertForum Interface->Expert1 Controller:Audio Information
+ExpertForum Interface->Expert2 Controller:Audio Information
+ExpertForum Interface->Expert3 Controller:Audio Information
+parallel
+Expert1 Controller->Expert1 ProcessData:Audio Information
+activate Expert1 Controller
+Expert2 Controller->Expert2 ProcessData:Audio Information
+activate Expert2 Controller
+Expert3 Controller->Expert3 ProcessData:Audio Information
+activate Expert3 Controller
+parallel off
+space 
+parallel 
+Expert1 ProcessData->Expert1 ProcessData:Process Information
+Expert2 ProcessData->Expert2 ProcessData:Process Information
+Expert3 ProcessData->Expert3 ProcessData:Process Information
+parallel off
+space
+parallel 
+Expert1 Controller->Expert1 ProcessData:Give me identification information
+Expert2 Controller->Expert2 ProcessData:Give me identification information
+Expert3 Controller->Expert3 ProcessData:Give me identification information
+parallel off
+space
+parallel
+Expert1 Controller<--Expert1 ProcessData:Identification information
+Expert2 Controller<--Expert2 ProcessData:Identification information
+Expert3 Controller<--Expert3 ProcessData:Identification information
+parallel off
+ExpertForum Interface<-Expert1 Controller:Identification information
+deactivate Expert1 Controller
+ExpertForum Interface<-Expert2 Controller:Identification information
+deactivate Expert2 Controller
+ExpertForum Interface<-Expert3 Controller:Identification information
+deactivate Expert3 Controller
+Forum Controller<--ExpertForum Interface:Identification information 
+deactivate ExpertForum Interface
+Forum Controller->Forum Controller:Create ID Result with Correction
+Forum Controller->IDResult Data:ID Result Data
+deactivate Forum Controller
+activate IDResult Data
+IDResult Data->Report Controller:Generate report
+activate Report Controller
+IDResult Data<--Report Controller:Request IDResult Data
+IDResult Data->Report Controller:IDResult Data
+deactivate IDResult Data
+Report Controller->Report Controller:Generate Report
+Report Controller->Correctness Report:Report for identified song
+deactivate Report Controller
+activate Correctness Report
+Correctness Report->Correctness Report:Update Screen
+User<-Correctness Report:Report Information
+deactivate Correctness Report

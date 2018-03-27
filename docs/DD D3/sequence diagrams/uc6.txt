@@ -1,0 +1,45 @@
+actor User
+title Use Case: Delete a Stored Identification
+
+boundary QueryResults Screen
+control Query Controller
+control IDArchive Controller
+database ID Archive
+
+User->QueryResults Screen:View All Stored Identifications
+activate QueryResults Screen
+QueryResults Screen->Query Controller:Request stored identifications
+activate Query Controller
+Query Controller->IDArchive Controller:Request all ID Results
+activate IDArchive Controller
+IDArchive Controller->ID Archive:Access all stored ID results
+activate ID Archive
+IDArchive Controller<--ID Archive:all stored ID results
+deactivate ID Archive
+Query Controller<--IDArchive Controller:All ID Results
+deactivate IDArchive Controller
+QueryResults Screen<--Query Controller:All ID Results
+deactivate Query Controller
+QueryResults Screen->QueryResults Screen:Render on screen
+User<--QueryResults Screen:Interactive display of stored identifications
+
+
+User->QueryResults Screen:Delete specific stored identification from display
+
+User<--QueryResults Screen:Request for deletion confirmation
+User-->QueryResults Screen:Confirm deletion of selected
+QueryResults Screen->Query Controller:Delete Selected
+activate Query Controller
+Query Controller->IDArchive Controller:Delete IDResult
+activate IDArchive Controller
+IDArchive Controller->ID Archive:Delete IDResult
+activate ID Archive
+ID Archive->ID Archive:Delete IDResult
+IDArchive Controller<-ID Archive:Deletion Succesful
+deactivate ID Archive
+Query Controller<-IDArchive Controller:Deletion Succesful
+deactivate IDArchive Controller
+QueryResults Screen<-Query Controller:Deletion Succesful
+deactivate Query Controller
+User<-QueryResults Screen:Deletion Succesful
+deactivate QueryResults Screen

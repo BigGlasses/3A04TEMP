@@ -1,0 +1,48 @@
+actor User
+title Use Case: View a Specific Stored Identification
+
+boundary QueryResults Screen
+boundary IDBreakdown Report
+control Query Controller
+control IDArchive Controller
+database ID Archive
+entity IDResult Data
+control Report Controller
+
+User->QueryResults Screen:View All Stored Identifications
+activate QueryResults Screen
+QueryResults Screen->Query Controller:Request stored identifications
+activate Query Controller
+Query Controller->IDArchive Controller:Request all ID Results
+activate IDArchive Controller
+IDArchive Controller->ID Archive:Access all stored ID results
+activate ID Archive
+IDArchive Controller<--ID Archive:all stored ID results
+deactivate ID Archive
+Query Controller<--IDArchive Controller:All ID Results
+deactivate IDArchive Controller
+QueryResults Screen<--Query Controller:All ID Results
+deactivate Query Controller
+QueryResults Screen->QueryResults Screen:Render on screen
+User<--QueryResults Screen:Interactive display of stored identifications
+
+
+User->QueryResults Screen:Select specific stored identification from display
+
+QueryResults Screen->IDResult Data:Selected IDResult Data
+deactivate QueryResults Screen
+activate IDResult Data
+activate ID Archive
+deactivate ID Archive
+IDResult Data->Report Controller:Generate report
+activate Report Controller
+IDResult Data<--Report Controller:Request IDResult Data
+IDResult Data->Report Controller:IDResult Data
+deactivate IDResult Data
+Report Controller->Report Controller:Generate Report
+Report Controller->IDBreakdown Report:Report for identified song
+activate IDBreakdown Report
+deactivate Report Controller
+IDBreakdown Report->IDBreakdown Report:Update Screen
+User<-IDBreakdown Report:Report Information
+deactivate IDBreakdown Report

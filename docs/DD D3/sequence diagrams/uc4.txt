@@ -1,0 +1,27 @@
+actor User
+title Use Case: View All Stored Identifications
+
+boundary QueryResults Screen
+control Query Controller
+control IDArchive Controller
+database ID Archive
+
+User->QueryResults Screen:View All Stored Identifications
+activate QueryResults Screen
+QueryResults Screen->Query Controller:Request stored identifications
+activate Query Controller
+Query Controller->IDArchive Controller:Request all ID Results
+activate IDArchive Controller
+IDArchive Controller->ID Archive:Access all stored ID results
+activate ID Archive
+IDArchive Controller<--ID Archive:all stored ID results
+deactivate ID Archive
+Query Controller<--IDArchive Controller:All ID Results
+deactivate IDArchive Controller
+QueryResults Screen<--Query Controller:All ID Results
+deactivate Query Controller
+QueryResults Screen->QueryResults Screen:Render on screen
+User<--QueryResults Screen:Interactive display of stored identifications
+
+
+deactivate QueryResults Screen

@@ -1,0 +1,101 @@
+actor User
+title Use Case: Identify A Song/Music
+
+boundary AudioInput Screen
+boundary IDBreakdown Report
+control Input Controller
+database AudioData
+control Forum Controller
+boundary ExpertForum Interface
+control Expert1 Controller
+entity Expert1 ProcessData
+control Expert2 Controller
+entity Expert2 ProcessData
+control Expert3 Controller
+entity Expert3 ProcessData
+entity ID Result Data
+control ID Archive Controller
+database ID Archive Archive
+control Report Controller
+
+User->AudioInput Screen:Identify Song
+activate AudioInput Screen
+User<--AudioInput Screen:Ask for song
+deactivate AudioInput Screen
+User->Input Controller:Recorded Audio Information
+activate Input Controller
+Input Controller->AudioData:Store the recorded Audio Information
+activate AudioData
+AudioData->AudioData:Store Audio
+deactivate AudioData
+Input Controller<--AudioData:Stored audio information
+Input Controller->Forum Controller:Process the latest audio information
+deactivate Input Controller
+activate Forum Controller
+AudioData<-Forum Controller:Request latest audio information
+activate AudioData
+AudioData-->Forum Controller:Latest Audio Information
+deactivate AudioData
+Forum Controller->ExpertForum Interface:Make a new identification
+activate ExpertForum Interface
+Forum Controller<--ExpertForum Interface:Request audio information for the identification.
+Forum Controller-->ExpertForum Interface:Audio information
+Forum Controller->ExpertForum Interface:Request identification information
+ExpertForum Interface->Expert1 Controller:Audio Information
+ExpertForum Interface->Expert2 Controller:Audio Information
+ExpertForum Interface->Expert3 Controller:Audio Information
+parallel
+Expert1 Controller->Expert1 ProcessData:Audio Information
+activate Expert1 Controller
+Expert2 Controller->Expert2 ProcessData:Audio Information
+activate Expert2 Controller
+Expert3 Controller->Expert3 ProcessData:Audio Information
+activate Expert3 Controller
+parallel off
+space 
+parallel 
+Expert1 ProcessData->Expert1 ProcessData:Process Information
+Expert2 ProcessData->Expert2 ProcessData:Process Information
+Expert3 ProcessData->Expert3 ProcessData:Process Information
+parallel off
+space
+parallel 
+Expert1 Controller->Expert1 ProcessData:Give me identification information
+Expert2 Controller->Expert2 ProcessData:Give me identification information
+Expert3 Controller->Expert3 ProcessData:Give me identification information
+parallel off
+space
+parallel
+Expert1 Controller<--Expert1 ProcessData:Identification information
+Expert2 Controller<--Expert2 ProcessData:Identification information
+Expert3 Controller<--Expert3 ProcessData:Identification information
+parallel off
+ExpertForum Interface<-Expert1 Controller:Identification information
+deactivate Expert1 Controller
+ExpertForum Interface<-Expert2 Controller:Identification information
+deactivate Expert2 Controller
+ExpertForum Interface<-Expert3 Controller:Identification information
+deactivate Expert3 Controller
+Forum Controller<--ExpertForum Interface:Identification information 
+deactivate ExpertForum Interface
+Forum Controller->Forum Controller:Create ID Result
+Forum Controller->ID Result Data:ID Result Data
+deactivate Forum Controller
+activate ID Result Data
+ID Result Data->ID Archive Controller:Store ID Result Data
+activate ID Archive Controller
+ID Archive Controller->ID Archive Archive:Store ID Result Data
+activate ID Archive Archive
+ID Archive Archive->ID Archive Archive:Store
+ID Archive Controller<-ID Archive Archive:Stored
+deactivate ID Archive Archive
+ID Result Data<-ID Archive Controller:Stored
+deactivate ID Archive Controller
+ID Result Data->Report Controller:Generate report
+ID Result Data<--Report Controller:Request ID Result Data
+ID Result Data->Report Controller:ID Result Data
+deactivate ID Result Data
+Report Controller->Report Controller:Generate Report
+Report Controller->IDBreakdown Report:Report for identified song
+IDBreakdown Report->IDBreakdown Report:Update Screen
+User<-IDBreakdown Report:Report Information

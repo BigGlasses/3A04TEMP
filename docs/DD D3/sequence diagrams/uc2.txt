@@ -1,0 +1,10 @@
+actor User
+title Use Case: View Identification Rationale
+
+boundary IDBreakdown Report
+
+
+User->IDBreakdown Report:View                                                                rationale
+activate IDBreakdown Report
+User<--IDBreakdown Report:Show rationale
+deactivate IDBreakdown Report
