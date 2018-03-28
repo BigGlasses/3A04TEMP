@@ -5,7 +5,7 @@ boundary QueryResults Screen
 boundary IDBreakdown Report
 control Query Controller
 control IDArchive Controller
-database ID Archive
+entity IDArchive Data
 entity IDResult Data
 control Report Controller
 
@@ -15,10 +15,10 @@ QueryResults Screen->Query Controller:Request stored identifications
 activate Query Controller
 Query Controller->IDArchive Controller:Request all ID Results
 activate IDArchive Controller
-IDArchive Controller->ID Archive:Access all stored ID results
-activate ID Archive
-IDArchive Controller<--ID Archive:all stored ID results
-deactivate ID Archive
+IDArchive Controller->IDArchive Data:Access all stored ID results
+activate IDArchive Data
+IDArchive Controller<--IDArchive Data:all stored ID results
+deactivate IDArchive Data
 Query Controller<--IDArchive Controller:All ID Results
 deactivate IDArchive Controller
 QueryResults Screen<--Query Controller:All ID Results
@@ -32,8 +32,8 @@ User->QueryResults Screen:Select specific stored identification from display
 QueryResults Screen->IDResult Data:Selected IDResult Data
 deactivate QueryResults Screen
 activate IDResult Data
-activate ID Archive
-deactivate ID Archive
+activate IDArchive Data
+deactivate IDArchive Data
 IDResult Data->Report Controller:Generate report
 activate Report Controller
 IDResult Data<--Report Controller:Request IDResult Data

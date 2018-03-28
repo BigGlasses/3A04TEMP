@@ -4,20 +4,22 @@ title Use Case: Store An Identification
 boundary IDBreakdown Report
 entity IDResult Data
 control IDArchive Controller
-database ID Archive
+entity IDArchive Data
 
 User->IDBreakdown Report:Store the current IDResult Data
 activate IDResult Data
+activate IDBreakdown Report
 IDBreakdown Report->IDResult Data:Store
 IDResult Data->IDArchive Controller:Store IDResult Data
 activate IDArchive Controller
-IDArchive Controller->ID Archive:Store IDResult Data
-activate ID Archive
-ID Archive->ID Archive:Store
-IDArchive Controller<--ID Archive:Stored successfully
-deactivate ID Archive
+IDArchive Controller->IDArchive Data:Store IDResult Data
+activate IDArchive Data
+IDArchive Data->IDArchive Data:Store
+IDArchive Controller<--IDArchive Data:Stored successfully
+deactivate IDArchive Data
 IDResult Data<--IDArchive Controller:Stored successfully
 deactivate IDArchive Controller
 IDBreakdown Report<--IDResult Data:Stored successfully
 deactivate IDResult Data
 User<--IDBreakdown Report:Store confirmation message
+deactivate IDBreakdown Report
