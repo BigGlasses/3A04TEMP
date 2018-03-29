@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mcmaster3a04.team11.audiovally">
 
@@ -18,6 +19,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".SideMenu"
+            android:label="@string/title_activity_side_menu"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".QueryResults"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_query_results"
+            android:theme="@style/FullscreenTheme" />
+        <activity
+            android:name=".IDBreakdownReport"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_idbreakdown_report"
+            android:theme="@style/FullscreenTheme" />
+        <activity
+            android:name=".AudioInput"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_audio_input"
+            android:theme="@style/FullscreenTheme"></activity>
     </application>
 
 </manifest>
