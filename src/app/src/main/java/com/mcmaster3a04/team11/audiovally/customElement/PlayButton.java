@@ -1,7 +1,7 @@
 package com.mcmaster3a04.team11.audiovally;
 
 import android.content.Context;
-import android.support.v7.widget.AppCompatButton;
+import android.widget.Button;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -10,7 +10,7 @@ import android.view.View;
  */
 
 
-public class PlayButton extends AppCompatButton {
+public class PlayButton extends Button {
     boolean mStartPlaying = true;
 
     public PlayButton(Context ctx) {
