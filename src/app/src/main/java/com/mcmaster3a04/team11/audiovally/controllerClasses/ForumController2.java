@@ -24,7 +24,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
-public class ForumController {
+public class ForumController2 {
 
     /**
      * Demonstrates using the Speech API to transcribe an audio file.
@@ -78,33 +78,16 @@ public class ForumController {
     }
     static GenericExpertController[] expertControllers;
 
+
     public static void init(){
         expertControllers = new GenericExpertController[3];
-        expertControllers[0] = (GenericExpertController) new Expert1Controller();
-        expertControllers[1] = (GenericExpertController) new Expert2Controller();
-        expertControllers[2] = (GenericExpertController) new Expert3Controller();
+//        expertControllers[0] = (GenericExpertController) new Expert1Controller();
+//        expertControllers[1] = (GenericExpertController) new Expert2Controller();
+//        expertControllers[2] = (GenericExpertController) new Expert3Controller();
     }
 
     public static void makeIdentification(){
         Thread [] a = new Thread[expertControllers.length];
-        for (int i = 0; i < a.length; i ++){
-            final byte[] b = new byte[3];
-            final int finalI = i;
-            a[i]= new Thread(){
-                public void run(){
-                    expertControllers[finalI].feedAudioData(b);
-                }
-            };
-            a[i].start();
-        }
-
-        for (int i = 0; i < a.length; i ++) {
-            try {
-                a[i].join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
 
     }
 }

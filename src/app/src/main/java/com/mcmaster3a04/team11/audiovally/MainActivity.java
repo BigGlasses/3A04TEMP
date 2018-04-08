@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mcmaster3a04.team11.audiovally.controllerClasses.ForumController;
+import com.mcmaster3a04.team11.audiovally.controllerClasses.ForumController2;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_notifications:
                     mTextMessage.setText(R.string.title_notifications);
                     try {
-                        ForumController.speech(getExternalCacheDir());
+                        ForumController2.speech(getExternalCacheDir());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

@@ -1,7 +1,9 @@
 package com.mcmaster3a04.team11.audiovally;
 
 import android.Manifest;
+import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
@@ -14,22 +16,25 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.mcmaster3a04.team11.audiovally.Data.Constants;
 import com.mcmaster3a04.team11.audiovally.EntityClasses.AudioData;
 
 public class AudioInput extends AppCompatActivity {
 
-
+    ProgressBar pb;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_audio_input);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
+        //ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -46,17 +51,27 @@ public class AudioInput extends AppCompatActivity {
 
         mRecordButton = findViewById(R.id.record_button);
         mPlayButton = findViewById(R.id.play_button);
-        mRecordButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                onRecord(mRecordButton.mStartRecording);
-                if (mRecordButton.mStartRecording) {
-                    mRecordButton.setText("Stop recording");
-                } else {
-                    mRecordButton.setText("Start recording");
+        pb = findViewById(R.id.progressBar);
+        pb.setProgress(0);
+        mRecordButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        onRecord(true);
+                        pb.setProgress(0);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        onRecord(false);
+                        pb.setProgress(100);
+                        Intent myIntent = new Intent(getApplicationContext(), AudioInputProcessing.class);
+                        startActivityForResult(myIntent, 0);
+                        break;
                 }
-                mRecordButton.mStartRecording = !mRecordButton.mStartRecording;
+                return false;
             }
         });
+
         mPlayButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 onPlay(mPlayButton.mStartPlaying);
@@ -71,8 +86,6 @@ public class AudioInput extends AppCompatActivity {
                 toast.show();
             }
         });
-
-
     }
 
     private static final String LOG_TAG = "AudioRecordTest";
@@ -147,6 +160,17 @@ public class AudioInput extends AppCompatActivity {
         }
 
         mRecorder.start();
+
+        if(android.os.Build.VERSION.SDK_INT >= 11){
+            // will update the "progress" propriety of seekbar until it reaches progress
+            ObjectAnimator animation = ObjectAnimator.ofInt(pb, "progress", 100);
+            animation.setDuration(Constants.MAX_SAMPLE_LENGTH);
+            animation.setInterpolator(new DecelerateInterpolator());
+            animation.start();
+        }
+        else {
+            pb.setProgress(100); // no animation on Gingerbread or lower
+        }
     }
 
     private void stopRecording() {
