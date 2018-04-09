@@ -5,12 +5,16 @@ import android.content.res.AssetManager;
 import android.os.Environment;
 import android.util.Log;
 
+import com.gracenote.gnsdk.GnAlbum;
 import com.gracenote.gnsdk.GnException;
 import com.gracenote.gnsdk.GnLicenseInputMode;
 import com.gracenote.gnsdk.GnLog;
+import com.gracenote.gnsdk.GnLookupData;
 import com.gracenote.gnsdk.GnLookupLocalStream;
 import com.gracenote.gnsdk.GnManager;
+import com.gracenote.gnsdk.GnMic;
 import com.gracenote.gnsdk.GnMusicIdStream;
+import com.gracenote.gnsdk.GnMusicIdStreamPreset;
 import com.gracenote.gnsdk.GnStorageSqlite;
 import com.gracenote.gnsdk.GnUser;
 import com.gracenote.gnsdk.GnUserStore;
@@ -47,7 +51,7 @@ public class Constants {
     static final String 				gnsdkLicenseFilename 	= "license.txt";	// app expects this file as an "asset"
     private static final String    		gnsdkLogFilename 		= "sample.log";
     private static final String 		appString				= "GFM Sample";
-
+    private static GnAlbum g;
     private static boolean inited = false;
     public static  void init(Context scontext){
         if (inited)
@@ -80,6 +84,7 @@ public class Constants {
 
             // enable local MusicID-Stream recognition (GNSDK storage provider must be enabled as pre-requisite)
             GnLookupLocalStream.enable();
+
         } catch (GnException e) {
             e.printStackTrace();
         }
@@ -157,4 +162,11 @@ public class Constants {
         }
     }
 
+    public static  void setAlbum(GnAlbum gb){
+        g = gb;
+    }
+
+    public static  GnAlbum getAlbum(){
+        return g;
+    }
 }

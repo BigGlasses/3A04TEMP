@@ -42,14 +42,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation files('src/test/java/musicg-1.4.2.0.jar')
     compile 'com.google.cloud:google-cloud-speech:0.42.0-alpha'
+    compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.+'
 }
 
-task copySecretKey(type: Copy) {
-    def File secretKey = file "$System.env.GOOGLE_APPLICATION_CREDENTIALS"
-    from secretKey.getParent()
-    include secretKey.getName()
-    into 'src/main/res/raw'
-    rename secretKey.getName(), "credential.json"
-}
-preBuild.dependsOn(copySecretKey)
 

@@ -16,6 +16,21 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.gracenote.gnsdk.GnDataLevel;
+import com.gracenote.gnsdk.GnError;
+import com.gracenote.gnsdk.GnException;
+import com.gracenote.gnsdk.GnImageSize;
+import com.gracenote.gnsdk.GnLookupData;
+import com.gracenote.gnsdk.GnMic;
+import com.gracenote.gnsdk.GnMusicIdStream;
+import com.gracenote.gnsdk.GnMusicIdStreamIdentifyingStatus;
+import com.gracenote.gnsdk.GnMusicIdStreamPreset;
+import com.gracenote.gnsdk.GnMusicIdStreamProcessingStatus;
+import com.gracenote.gnsdk.GnResponseAlbums;
+import com.gracenote.gnsdk.GnStatus;
+import com.gracenote.gnsdk.IGnAudioSource;
+import com.gracenote.gnsdk.IGnCancellable;
+import com.gracenote.gnsdk.IGnMusicIdStreamEvents;
 import com.mcmaster3a04.team11.audiovally.Data.Constants;
 import com.mcmaster3a04.team11.audiovally.Data.IDResultFragment;
 import com.mcmaster3a04.team11.audiovally.EntityClasses.AudioData;
@@ -29,14 +44,19 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import be.tarsos.dsp.AudioDispatcher;
 import be.tarsos.dsp.io.TarsosDSPAudioFormat;
 import be.tarsos.dsp.io.UniversalAudioInputStream;
+import io.grpc.netty.shaded.io.netty.util.Constant;
 
 public class AudioInputProcessing extends AppCompatActivity {
 
     GenericExpertController[] expertControllers;
+    GnMusicIdStream gnMusicIdStream;
+    private IGnAudioSource gnMicrophone;
+    Thread audioProcessThread;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +74,8 @@ public class AudioInputProcessing extends AppCompatActivity {
 //        // Attach the adapter to a ListView
 //        ListView listView = (ListView) findViewById(R.id.listholder);
 //        listView.setAdapter(adapter);
+
+        //gnMicrophone = new AudioVisualizeAdapter( new GnMic() );
 
     }
 
@@ -97,15 +119,7 @@ public class AudioInputProcessing extends AppCompatActivity {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-            UniversalAudioInputStream Uas = new UniversalAudioInputStream(fs,new TarsosDSPAudioFormat(22050,16,1,true,true));
-            AudioDispatcher ad = new AudioDispatcher(Uas,1024,512);
 
-            mFileName = getExternalCacheDir().getAbsolutePath();
-            mFileName += AudioData.directory + AudioData.latest;
-            mFileName = getExternalCacheDir().getAbsolutePath();
-            mFileName += "/test.mp3";
-            Log.d("Pizza", mFileName);
-            //mFileName = "//android_asset/test.mp3";
             expertControllers = new GenericExpertController[3];
             expertControllers[0] = new Expert1Controller(mFileName, pb1);
             expertControllers[1] = new Expert2Controller(mFileName, pb2);
@@ -129,6 +143,32 @@ public class AudioInputProcessing extends AppCompatActivity {
                     }
                 }
             }
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    TextView genretext1 = findViewById(R.id.genre_textview_1);
+                    TextView genretext2 = findViewById(R.id.genre_textview_2);
+                    TextView genretext3 = findViewById(R.id.genre_textview_3);
+                    String genre1 = Constants.getAlbum().genre(GnDataLevel.kDataLevel_1);
+                    String genre2 = Constants.getAlbum().genre(GnDataLevel.kDataLevel_2);
+                    String genre3 = Constants.getAlbum().genre(GnDataLevel.kDataLevel_3);
+                    genretext1.setText(genre1);
+                    if (!genre1.equals(genre2))
+                        genretext2.setText(genre2);
+                    if (!genre2.equals(genre3))
+                        genretext3.setText(genre3);
+
+                }
+            });
+
+
+
 
             return null;
         }
@@ -138,4 +178,5 @@ public class AudioInputProcessing extends AppCompatActivity {
 //            startActivityForResult(myIntent, 0);
         }
     }
+
 }

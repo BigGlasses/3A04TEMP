@@ -36,7 +36,7 @@ public abstract class GenericExpertProcessData extends AsyncTask<String ,Integer
         int count = data.length;
         processAudioData();
         try {
-            Thread.sleep(1000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
